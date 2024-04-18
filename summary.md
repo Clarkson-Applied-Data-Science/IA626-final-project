@@ -11,6 +11,10 @@ The first step is to get the csv data that I want to use into a mysql database. 
 !['schema'](mysqlschema.png)
 The next step would then be to translate the mysql tables into a json format to be used for the API.
 
+#### Developing API
+
+#### Interface and Graphs
+
 ## Python Code
 #### 'geigersr_players' Table Creation and Insertion
 ```

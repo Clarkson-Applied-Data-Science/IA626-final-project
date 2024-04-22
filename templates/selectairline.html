@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action="/perhour" method="GET">
+
+        <select name="aid">
+            {% for airline in airlines %}
+            <option value="{{ airline.value }}">{{ airline.name }}</option>
+           
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="submit" value="Show chart" />
+    </form>
+{% endblock %}
+

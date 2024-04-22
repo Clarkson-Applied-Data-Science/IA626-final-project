@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Main Menu</h1>
+    {% if msg %}
+   		<div id="menumsg">
+    		{{ msg}}
+   		 </div>					
+    {% endif %}
+    
+    
+{% endblock %}

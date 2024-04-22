@@ -7,13 +7,21 @@ For my project I want to look more in depth into NHL statistics. I was able to f
 ## Outline
 
 #### mysql loading
-The first step is to get the csv data that I want to use into a mysql database. I did this by writing a python script to import two tables based on the schema below. The `players` table was simple to enter and I was able to load the table into mysql with ease, only needing to make a date conversion for the `birthDate` field. The 'shots' table did not have any date requirements, but it did have some challenges. Based on the schema below, the `shots` table has two foreign keys that connect to the `playerId` in the `players` table. In the to csv files that I pulled the data from the `playerId` fields had different types. In the player csv, the field was read in by python as a interger type, but in the shots datafile, the `shooterPlayerId` and `goalieIdForShot` fields read in as a string with a trailing decimal and zero. This caused a foreign key constraint error to arise due to the Ids not aligning. To fix this I changed the mysql field type to char(7) then added a few lines of cude to cut the '.0' off the end of the Ids, so they aligned with the other table.  
-!['schema'](mysqlschema.png)
+The first step is to get the csv data that I want to use into a mysql database. I did this by writing a python script to import two tables based on the schema below. The `players` table was simple to enter and I was able to load the table into mysql with ease, only needing to make a date conversion for the `birthDate` field. The 'shots' table did not have any date requirements, but it did have some challenges. Based on the schema below, the `shots` table has two foreign keys that connect to the `playerId` in the `players` table. In the csv files that I pulled the data from the `playerId` fields had different types. In the player csv, the field was read in by python as a interger type, but in the shots datafile, the `shooterPlayerId` and `goalieIdForShot` fields read in as a string with a trailing decimal and zero. This caused a foreign key constraint error to arise due to the Ids not aligning. To fix this I changed the mysql field type to char(7) then added a few lines of cude to cut the '.0' off the end of the Ids, so they aligned with the other table.  
+!['schema'](img/mysqlschema.png)
 The next step would then be to translate the mysql tables into a json format to be used for the API.
 
 #### Developing API
+The next step was to begin developing an API that had multiple endpoints that shows users valuable information from the mysql database. The endpoints I created are:
+* Player description search - The user enters a players name and the result is decriptive information about that player (heaight, weight, nationality, etc.)
+* Top scorers - Returns the top 10 goal scorers of the given year regular season or playoffs.
+* Team shooting pcts - Returns all teams shooting percentagre of the given season, regular season or playoffs. 
+* Player's shooting chart - Returns scatter plot of all the shots taken by a given player in a given regular season or playoffs and the result of the shot. 
+* Team advanced stats - returns advanced statistics of a given team in a given regular season or playoffs.
+I built all these endpoints that conenct to the database where my two SQL tables are stored, then write a query to that database using tokens as placeholders for user inputs in the URL. The result of all the endpoints is json data. If one of the inputs is wrong then an error message will appear telling the user to check their inputs and enter valid values. In the figures section I included images of the outputs of the API's results in json format. 
 
 #### Interface and Graphs
+
 
 ## Python Code
 #### 'geigersr_players' Table Creation and Insertion
@@ -136,8 +144,15 @@ if len(tokens) > 0:
 ```
 
 ## Figures
-
-
+* Mysql Tables
+!['Players'](img/players_table.png)
+!['Shots'](img/shots_table.png)
+* json endpoints
+!['getPlayer'](img/getPlayer.png)
+!['getTopscorers'](img/getTopscorers.png)
+!['getTeamShootingPct'](img/getTeamShootingPct.png)
+!['getPlayerChart'](img/getPlayerChart.png)
+!['getAdvStats'](img/getAdvStats.png)
 ## Results
 
 

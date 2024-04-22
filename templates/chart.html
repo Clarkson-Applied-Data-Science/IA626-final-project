@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {{ msg }}
+    <form action="/getTopScorers" method="GET">
+
+        <select name="name">
+            {% for row in chart %}
+                {% if selected_aid == airline.value %}
+                <option selected value="{{ airline.value }}">{{ airline.name }}</option>
+                {% else %}
+                <option value="{{ airline.value }}">{{ airline.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="submit" value="Show chart" />
+    </form>
+    <div id="myDiv"></div>
+{% endblock %}
+

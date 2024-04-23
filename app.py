@@ -17,10 +17,10 @@ def root():
 def getPlayer():
     conn = pymysql.connect(host='mysql.clarksonmsda.org',port=3306,user='ia626',passwd='ia626clarkson', db='ia626', autocommit=True)
     cur = conn.cursor(pymysql.cursors.DictCursor)
-    sql = '''SELECT * FROM `geigersr_players` WHERE `name` like %s LIMIT 0,10;'''
+    sql = '''SELECT * FROM `geigersr_players` WHERE `name` = %s LIMIT 0,10;'''
     name = request.args.get('name')
     print(name)
-    token = f"%{name}%"
+    token = f"{name}"
     cur.execute(sql,(token))
     rows = []
     for row in cur:

@@ -1,0 +1,41 @@
+<html>
+    <head>
+      {% if title %}
+        <title>{{ title }} - Home</title>
+      {% else %}
+        <title>Welcome to my example</title>
+      {% endif %}
+	  <link rel="stylesheet" type="text/css" href="static/style.css">
+	  <script src="static/plotly-latest.min.js"></script>
+	  
+	  
+    </head>
+    <body>
+        
+        {% block content %}{% endblock %}
+    </body>
+	<script>
+		{% if data %}
+		var values = data
+		var data = [{
+		type: 'table',
+	header: {
+		values: [['Attributes'], ['']],
+		align: "center",
+		line: {width: 1, color: 'black'},
+		fill: {color: "grey"},
+		font: {family: "Arial", size: 12, color: "white"}
+	},
+	cells: {
+		values: values,
+		align: "center",
+		line: {color: "black", width: 1},
+		font: {family: "Arial", size: 11, color: ["black"]}
+	}
+	}]
+
+	Plotly.newPlot('myDiv', data);
+			{% endif %}
+
+	  </script>
+</html>

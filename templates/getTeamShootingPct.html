@@ -3,7 +3,7 @@
 {% block content %}
     {{ msg }}
     <form action="/getTeamShootingPct" method="GET">
-
+        <a href="/">Main Menu</a><br>
         <select name="name">
             {% for row in chart %}
                 {% if selected_season == season.value %}

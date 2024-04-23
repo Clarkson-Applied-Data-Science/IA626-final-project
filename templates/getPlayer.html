@@ -1,9 +1,10 @@
-{% extends "scatter.html" %}
+{% extends "table.html" %}
 
 {% block content %}
     {{ msg }}
-    <form action="/getPlayerChart" method="GET">
+    <form action="/getPlayer" method="GET">
         <a href="/">Main Menu</a><br>
+
         <select name="name">
             {% for row in chart %}
                 {% if selected_season == season.value %}

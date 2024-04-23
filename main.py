@@ -17,15 +17,22 @@ app = Flask(__name__, static_url_path='')
 def send_static(path):
     return send_from_directory('static', path)
 
-
 @app.route('/')
 def home():
-    #return '<b>hi</b>'
-    data = {}
-    data['x'] = [1,2,3,4,5,6,7,8,9,10]
-    data['y'] = [5,7,3,1,5,8,7,3,9,1]
-    return render_template('chart.html', title='Home', msg='Welcome!!!!',data=data)
-#SELECT airlines.airline , COUNT(*) as num, HOUR(datapoints.date_time) as hr from datapoints LEFT JOIN flights ON datapoints.fid = flights.fid Left JOIN airlines ON flights.aid = airlines.aid GROUP BY hr;
+    return render_template('main.html', title='Home', msg='Welcome!!!!')
+
+@app.route('/getPlayer')
+def getPlayer():
+    name = request.args.get("name")
+    url = f'http://127.0.0.1:5000/getPlayer?name={name}'
+    r = requests.get(url)
+    data = json.loads(r.text)
+    table = []
+    table.append(list(data['rows'][0].keys()))
+    for row in data['rows']:
+        table.append(list(row.values()))
+    return render_template('getPlayer.html', title='Goals in a Season', msg=f'Searched Name: {name}',data=table)
+
 @app.route('/getTopScorers')
 def getTopScorers():
     season = request.args.get("season")
@@ -73,19 +80,20 @@ def getPlayerChart():
             chart['y3'].append(int(row['ycord']))
     return render_template('getPlayerChart.html', title='Player Shooting Chart', msg=f'{name} Shooting Chart in {season}',data=chart) 
 
-@app.route('/selectseason')
-def selectseason():
-    conn = pymysql.connect(host='mysql.clarksonmsda.org', port=3306, user='ia626',
-                       passwd='ia626clarkson', db='ia626', autocommit=True) #setup our credentials
-    cur = conn.cursor(pymysql.cursors.DictCursor)
-    sql ='SELECT season FROM geigersr_shots GROUP BY season ORDER BY season;'
-    cur.execute(sql)
-    seasons = []
-    for row in cur:
-        season = {}
-        season['season'] = row['season']
-        seasons.append(season)
-    return render_template('selectairline.html',seasons=seasons)
+@app.route('/getAdvstats')
+def getAdvstats():
+    team = request.args.get("team")
+    season = request.args.get("season")
+    playoffs = request.args.get("playoffs")
+    url = f'http://127.0.0.1:5000/getAdvstats?team={team}&season={season}&playoffs={playoffs}'
+    r = requests.get(url)
+    data = json.loads(r.text)
+    table = []
+    table.append(list(data['rows'][0]))
+    for row in data['rows']:
+        table.append(list(row.values()))
+    return render_template('getAdvstats.html', title='Advanced Statistics', msg=f'{team} Stats in {season}',data=table)
+
 
 if __name__ == "__main__":
     app.run(host=os.getenv('HOSTIP', '127.0.0.1'),debug=os.getenv('FLASKDEBUG', True),port=os.getenv('PORT', '5001'))

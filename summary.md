@@ -3,7 +3,7 @@
 
 ## Summary/Initial Question
 For my project I want to look more in depth into NHL statistics. I was able to find a dataset that has every single shot taken in an NHL game from 2007-2022. This dataset includes where on the ice the shot was taken from, who the shooter was, the type of shot that was taken and also information about the play around the shooter. My initial question was is there any correlation between any of these shot characteristics and the probability of a goal being scored at a given time. Hockey is a very fast game with a constant flow of play. This makes it difficult to get advanced statistics on parts of the game, unlike other sports like baseball or football that have set pitches and plays that divide the game up into even segments. I wanted to see what players not only generate the most shots, but the highest quality shots based on location, angle, and situation. My goal is to take two flat csv files that contain player descriptions and shot data and turn them into a API that can be utilized by users to gather valuable information about their favorite players. My API will have multiple endpoints that query the data to show different metrics for different groups of players as well as indiviual players over the provided years. 
-
+I also will be adding a second API to this inital API to create visualizations for each endpoint. Instead of reading the data in json format which can be difficult to read and analyse, I will make tables and charts that can be easily interpreted and analyzed. This API will also be more user friendly and able to change views and filters at the click of a button. 
 ## Outline
 
 #### mysql loading
@@ -21,7 +21,7 @@ The next step was to begin developing an API that had multiple endpoints that sh
 I built all these endpoints that conenct to the database where my two SQL tables are stored, then write a query to that database using tokens as placeholders for user inputs in the URL. The result of all the endpoints is json data. If one of the inputs is wrong then an error message will appear telling the user to check their inputs and enter valid values. In the figures section I included images of the outputs of the API's results in json format. 
 
 #### Interface and Graphs
-
+The final step was to create a second API that read the json from my first API and created visuals for each endpoint. This would be the front end application for my app. I created the same endpoints that my json API had. This time, instead of connecting to the mysql database this API connected to my json API. It reads in the endpoints URL then decodes the json results to be used in a Plotly visualizations. My endpoints are visualized as a table, bar chart, or scatter plot. I also created a main page where the user can access all the endpoints without needing to type into the URL themselves. This limits the chances of user error and mistyping values. 
 
 ## Python Code
 #### 'geigersr_players' Table Creation and Insertion
@@ -141,6 +141,36 @@ for row in data:
     n += 1
 if len(tokens) > 0:
     cur.executemany(sql, tokens)
+```
+#### Example Endpoint Code JSON endpoint
+```
+@app.route("/getTopScorers", methods=['GET','POST'])
+def getTopScorers():
+    conn = pymysql.connect(host='mysql.clarksonmsda.org',port=3306,user='ia626',passwd='ia626clarkson', db='ia626', autocommit=True)
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    sql = '''SELECT p.`name`,COUNT(s.`goal`) as `goals` FROM `geigersr_shots` s, `geigersr_players`p WHERE p.`playerId` = s.`shooterId`
+                AND s.`goal` = 1 AND s.`season` = %s  and isPlayoffGame = %s GROUP BY s.`shooterId` ORDER BY `Goals` DESC LIMIT 0,10;'''
+    season = request.args.get('season')
+    playoffs = request.args.get('playoffs')
+    print(season,playoffs)
+    tokens = [season,playoffs]
+    cur.execute(sql,(tokens))
+    rows = []
+    for row in cur:
+        d = {}
+        d['name'] = row['name']
+        d['goals'] = row['goals']
+        rows.append(d)
+    if len(rows) > 0:
+        res['code'] = 1
+        res['msg'] = 'ok'
+        res['req'] = '/getTopScorers'
+        res['rows'] = rows
+    else:
+        res['code'] = 0
+        res['msg'] = 'Please enter a year between 2007 and 2022 and if playoffs is True/False'
+        res['rows'] = None
+    return json.dumps(res,indent=4)
 ```
 
 ## Figures

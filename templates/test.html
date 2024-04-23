@@ -1,5 +1,51 @@
-{% extends "base.html" %}
+<html>
+    <head>
+      {% if title %}
+        <title>{{ title }} - Home</title>
+      {% else %}
+        <title>Welcome to my example</title>
+      {% endif %}
+	  <link rel="stylesheet" type="text/css" href="static/style.css">
+	  <script src="static/plotly-latest.min.js"></script>
+	  
+	  
+    </head>
+    <body>
+        
+        {% block content %}{% endblock %}
+    </body>
+	<script>
+		{% if data %}
+			var trace1 = {
+			  x:  {{ data.x|tojson|safe }},
+			  y:  {{ data.y|tojson|safe }},
+			  type: 'scatter',
+              mode: 'markers',
+              name: 'Miss'
+			};
+            var trace2 = {
+			  x:  {{ data.x2|tojson|safe }},
+			  y:  {{ data.y2|tojson|safe }},
+			  type: 'scatter',
+              mode: 'markers',
+              name: 'Shot'
+			};
+            var trace3 = {
+			  x:  {{ data.x3|tojson|safe }},
+			  y:  {{ data.y3|tojson|safe }},
+			  type: 'scatter',
+              mode: 'markers',
+              name: 'Goal'
+			};
+            var data = [trace1, trace2, trace3];
+		
+			var layout = {
+			  height: 500,
+			  width: 800
+			};
 
-{% block content %}
-    {{ msg }}
-{% endblock %}
+			Plotly.newPlot('myDiv', data, layout);
+			{% endif %}
+
+	  </script>
+</html>

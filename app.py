@@ -78,7 +78,7 @@ def getTopScorers():
 def getTeamShootingPct():
     conn = pymysql.connect(host='mysql.clarksonmsda.org',port=3306,user='ia626',passwd='ia626clarkson', db='ia626', autocommit=True)
     cur = conn.cursor(pymysql.cursors.DictCursor)
-    sql = '''SELECT `teamCode`, ROUND(SUM(`goal`) / COUNT(`goal`) * 100,0) AS `shootingPct` FROM `geigersr_shots` WHERE `season` = %s
+    sql = '''SELECT `teamCode`, ROUND(SUM(`goal`) / COUNT(`goal`) * 100,2) AS `shootingPct` FROM `geigersr_shots` WHERE `season` = %s
                 AND isPlayoffGame = %s GROUP BY `teamCode` ORDER BY `ShootingPct` DESC;'''
     season = request.args.get('season')
     playoffs = request.args.get('playoffs')
@@ -89,7 +89,7 @@ def getTeamShootingPct():
     for row in cur:
         d = {}
         d['team'] = row['teamCode']
-        d['shootingPct'] = int(row['shootingPct']) 
+        d['shootingPct'] = str(row['shootingPct']) 
         rows.append(d)
     if len(rows) > 0:
         res['code'] = 1
@@ -106,7 +106,7 @@ def getTeamShootingPct():
 def getPlayerChart():
     conn = pymysql.connect(host='mysql.clarksonmsda.org',port=3306,user='ia626',passwd='ia626clarkson', db='ia626', autocommit=True)
     cur = conn.cursor(pymysql.cursors.DictCursor)
-    sql = '''SELECT s.`arenaAdjustedXCord`, s.`arenaAdjustedYCord`, s.`event`, p.`name` FROM `geigersr_shots` s, `geigersr_players` p
+    sql = '''SELECT s.`xCordAdjusted`, s.`yCordAdjusted`, s.`event`, p.`name` FROM `geigersr_shots` s, `geigersr_players` p
             WHERE s.`shooterId` = p.`playerId` AND p.`name` = %s AND s.`season` = %s AND s.isPlayoffGame = %s;'''
     name = request.args.get('name')
     season = request.args.get('season')
@@ -117,8 +117,8 @@ def getPlayerChart():
     rows = []
     for row in cur:
         d = {}
-        d['xcord'] = row['arenaAdjustedXCord']
-        d['ycord'] = row['arenaAdjustedYCord']
+        d['xcord'] = row['xCordAdjusted']
+        d['ycord'] = row['yCordAdjusted']
         d['event'] = row['event']
         d['name'] = row['name']
         rows.append(d)

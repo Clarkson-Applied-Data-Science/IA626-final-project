@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form action="/perhour" method="GET">
+    <form action="/getTopScorers" method="GET">
 
-        <select name="aid">
-            {% for airline in airlines %}
-            <option value="{{ airline.value }}">{{ airline.name }}</option>
+        <select name="season">
+            {% for season in seasons %}
+            <option value="{{ seasons.season }}">{{ seasons.season }}</option>
            
             {% endfor %}
         </select>

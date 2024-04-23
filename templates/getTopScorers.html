@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {{ msg }}
+    <form action="/getTopScorers" method="GET">
+
+        <select name="name">
+            {% for row in chart %}
+                {% if selected_season == season.value %}
+                <option selected value="{{ season.value }}">{{ season.name }}</option>
+                {% else %}
+                <option value="{{ season.value }}">{{ season.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="submit" value="Show chart" />
+    </form>
+    <div id="myDiv"></div>
+{% endblock %}
+

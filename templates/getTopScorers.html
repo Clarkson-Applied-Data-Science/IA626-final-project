@@ -4,15 +4,7 @@
     {{ msg }}
     <form action="/getTopScorers" method="GET">
         <a href="/">Main Menu</a><br>
-        <select name="name">
-            {% for row in chart %}
-                {% if selected_season == season.value %}
-                <option selected value="{{ season.value }}">{{ season.name }}</option>
-                {% else %}
-                <option value="{{ season.value }}">{{ season.name }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
+        <a href="/selectSeason">Change Season</a><br>
         <br><br>
         <input type="submit" value="Show chart" />
     </form>

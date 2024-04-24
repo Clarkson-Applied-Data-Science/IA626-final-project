@@ -1,0 +1,16 @@
+{% extends "table.html" %}
+
+{% block content %}
+    <form action="/getPlayer" method="GET">
+
+        <select name="name">
+            {% for player in players %}
+            <option value="{{ player.name }}">{{ player.name }}</option>
+           
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="submit" value="Show chart" />
+    </form>
+{% endblock %}
+

@@ -184,6 +184,7 @@ def getTopScorers():
 !['getPlayerChart'](img/getPlayerChart.png)
 !['getAdvStats'](img/getAdvStats.png)
 ## Results
-
+The results of this project was two working APIs, one that reads data from two mysql tables and loads five different endpoints that are results fo SQL queries in json format. The other API reads the json output from the API and using that data to make visualizations for each endpoint. Above I have pictures of examples from each endpoints. Each of the endpoints has a different visualization that is dynamic and changess when its inputs change. This allows the user to decide what season they want to investigate, or whether or not it was the playoffs of that season. The user can also pick their favorite player or team to get descriptions or advanced statistics about them. 
 
 # Code/API appendix
+

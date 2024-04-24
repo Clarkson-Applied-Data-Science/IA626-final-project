@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action="/getPlayerChart" method="GET">
+        <select name="name">
+            {% for player in players %}
+            <option value="{{ player.name }}">{{ player.name }}</option>
+            {% endfor %}
+        </select>
+        <select name="season">
+            {% for season in seasons %}
+            <option value="{{ season.season }}">{{ season.season }}</option>
+            {% endfor %}
+        </select>
+        <select name="playoffs">
+            {% for playoff in playoffs %}
+            <option value="{{ playoff.playoff }}">{{ playoff.playoff }}</option>
+            {% endfor %}
+        </select>
+        
+        
+        <br><br>
+        <input type="submit" value="Show chart" />
+    </form>
+{% endblock %}
+

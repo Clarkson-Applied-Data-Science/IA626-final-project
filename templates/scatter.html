@@ -37,11 +37,76 @@
               mode: 'markers',
               name: 'Goal'
 			};
-            var data = [trace1, trace2, trace3];
+			var trace4 = {
+				x: [89,89],
+				y: [-40,40],
+				type: 'scatter',
+				mode: 'lines',
+				line: {
+					color: 'rgb(139,0,0)'
+				}
+			};
+			var trace5 = {
+				x: [25,25],
+				y: [-40,40],
+				type: 'scatter',
+				mode: 'lines',
+				line: {
+					color: 'rgb(0,0,255)'
+			}
+			};
+			var trace6 = {
+				x: [0,0],
+				y: [-40,40],
+				type: 'scatter',
+				mode: 'lines',
+				line: {
+					color: 'rgb(139,0,0)'
+				}
+			};
+			var trace7 = {
+				x: [-10,100],
+				y: [40,40],
+				type: 'scatter',
+				mode: 'lines',
+				line: {
+					color: 'rgb(0,0,0)'
+				}
+			};
+			var trace8 = {
+				x: [-10,100],
+				y: [-40,-40],
+				type: 'scatter',
+				mode: 'lines',
+				line: {
+					color: 'rgb(0,0,0)'
+				}
+			};
+			var trace9 = {
+				x: [100,100],
+				y: [-40,40],
+				type: 'scatter',
+				mode: 'lines',
+				line: {
+					color: 'rgb(0,0,0)'
+				}
+			};
+			var trace10 = {
+				x: [89],
+				y: [0],
+				type: 'scatter',
+				mode: 'market',
+				marker: {
+					color: 'rgb(139,0,0)',
+					size: 14,
+					symbol: "diamond"
+				}
+			};
+            var data = [trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8, trace9, trace10];
 		
 			var layout = {
 			  height: 500,
-			  width: 800
+			  width: 800,
 			};
 
 			Plotly.newPlot('myDiv', data, layout);

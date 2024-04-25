@@ -31,7 +31,7 @@ def getPlayer():
     table.append(list(data['rows'][0].keys()))
     for row in data['rows']:
         table.append(list(row.values()))
-    return render_template('getPlayer.html', title='Goals in a Season', msg=f'Searched Name: {name}',data=table)
+    return render_template('getPlayer.html', title=f'{name}', msg=f'Searched Name: {name}',data=table, name=name)
 
 @app.route('/getTopScorers')
 def getTopScorers():
@@ -44,7 +44,7 @@ def getTopScorers():
     for row in data['rows']:
         chart['x'].append(row['name'])
         chart['y'].append(int(row['goals']))
-    return render_template('getTopScorers.html', title='Goals in a Season', msg=f'The Top 10 Goal Scorers in {season}',data=chart)
+    return render_template('getTopScorers.html', title='Top Goal Scorers', msg=f'The Top 10 Goal Scorers in {season}',data=chart)
 
 @app.route('/getTeamShootingPct')
 def getTeamShootingPct():
@@ -92,7 +92,7 @@ def getAdvstats():
     table.append(list(data['rows'][0]))
     for row in data['rows']:
         table.append(list(row.values()))
-    return render_template('getAdvstats.html', title='Advanced Statistics', msg=f'{team} Stats in {season}',data=table)
+    return render_template('getAdvstats.html', title='Advanced Statistics', msg=f'{team} Stats in {season}',data=table, name=team)
 
 @app.route('/selectPlayer')
 def selectPlayer():

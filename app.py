@@ -26,7 +26,6 @@ def getPlayer():
     for row in cur:
         d = {}
         d['playerId'] = row['playerId']
-        d['name'] = row['name']
         d['position'] = row['position']
         d['birthDate'] = str(row['birthDate'])
         d['weight'] = row['weight']
@@ -151,7 +150,6 @@ def getAdvStats():
     rows = []
     for row in cur:
         d = {}
-        d['teamCode'] = row['teamCode']
         d['goals'] = int(row['goals'])
         d['generatedRebounds'] = int(row['generatedRebounds'])
         d['goalieFroze'] = int(row['goalieFroze'])

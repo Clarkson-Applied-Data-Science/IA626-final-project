@@ -2,13 +2,8 @@
 
 {% block content %}
     <form action="/getPlayer" method="GET">
-
-        <select name="name">
-            {% for player in players %}
-            <option value="{{ player.name }}">{{ player.name }}</option>
-           
-            {% endfor %}
-        </select>
+        <label for="fname">Insert Player Name</label>
+        <input type="text" name="name"><br>
         <br><br>
         <input type="submit" value="Show chart" />
     </form>

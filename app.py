@@ -144,20 +144,21 @@ def getAdvStats():
     team = request.args.get('team')
     season = request.args.get('season')
     playoffs = request.args.get('playoffs')
-    print(team, season, playoffs)
+    #print(team, season, playoffs)
     tokens = [team, season, playoffs]
     cur.execute(sql,(tokens))
     rows = []
     for row in cur:
-        d = {}
-        d['goals'] = int(row['goals'])
-        d['generatedRebounds'] = int(row['generatedRebounds'])
-        d['goalieFroze'] = int(row['goalieFroze'])
-        d['onEmptyNet'] = int(row['onEmptyNet'])
-        d['rebounds'] = int(row['rebounds'])
-        d['onRush'] = int(row['onRush'])
-        d['onGoal'] = int(row['onGoal'])
-        rows.append(d)
+        if row['teamCode'] is not None:
+            d = {}
+            d['goals'] = int(row['goals'])
+            d['generatedRebounds'] = int(row['generatedRebounds'])
+            d['goalieFroze'] = int(row['goalieFroze'])
+            d['onEmptyNet'] = int(row['onEmptyNet'])
+            d['rebounds'] = int(row['rebounds'])
+            d['onRush'] = int(row['onRush'])
+            d['onGoal'] = int(row['onGoal'])
+            rows.append(d)
     
     if len(rows) > 0:
         res['code'] = 1

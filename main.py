@@ -27,11 +27,14 @@ def getPlayer():
     url = f'http://127.0.0.1:5000/getPlayer?name={name}'
     r = requests.get(url)
     data = json.loads(r.text)
-    table = []
-    table.append(list(data['rows'][0].keys()))
-    for row in data['rows']:
-        table.append(list(row.values()))
-    return render_template('getPlayer.html', title=f'{name}', msg=f'Searched Name: {name}',data=table, name=name)
+    if data['code'] == 1:
+        table = []
+        table.append(list(data['rows'][0].keys()))
+        for row in data['rows']:
+            table.append(list(row.values()))
+        return render_template('getPlayer.html', title=f'{name}', msg=f'Searched Name: {name}',data=table, name=name)
+    else:
+        return render_template('getPlayer.html', title=f'Error', msg=f'Search Not Valid. Please Enter Valid Name')
 
 @app.route('/getTopScorers')
 def getTopScorers():
@@ -40,11 +43,14 @@ def getTopScorers():
     url = f'http://127.0.0.1:5000/getTopScorers?season={season}&playoffs={playoffs}'
     r = requests.get(url)
     data = json.loads(r.text)
-    chart = {'x':[],'y':[]}
-    for row in data['rows']:
-        chart['x'].append(row['name'])
-        chart['y'].append(int(row['goals']))
-    return render_template('getTopScorers.html', title='Top Goal Scorers', msg=f'The Top 10 Goal Scorers in {season}',data=chart)
+    if data['code'] == 1:
+        chart = {'x':[],'y':[]}
+        for row in data['rows']:
+            chart['x'].append(row['name'])
+            chart['y'].append(int(row['goals']))
+        return render_template('getTopScorers.html', title='Top Goal Scorers', msg=f'The Top 10 Goal Scorers in {season} Playoffs is {playoffs}',data=chart)
+    else:
+        return render_template('getTopScorers.html', title=f'Error', msg=f'Search Not Valid. Please Enter Valid Search Criteria')
 
 @app.route('/getTeamShootingPct')
 def getTeamShootingPct():
@@ -53,11 +59,14 @@ def getTeamShootingPct():
     url = f'http://127.0.0.1:5000/getTeamShootingPct?season={season}&playoffs={playoffs}'
     r = requests.get(url)
     data = json.loads(r.text)
-    chart = {'x':[],'y':[]}
-    for row in data['rows']:
-        chart['x'].append(row['team'])
-        chart['y'].append(float(row['shootingPct']))
-    return render_template('getTeamShootingPct.html', title='Team Shooting Pct', msg=f'Teams Shooting % in {season}',data=chart) 
+    if data['code'] == 1:
+        chart = {'x':[],'y':[]}
+        for row in data['rows']:
+            chart['x'].append(row['team'])
+            chart['y'].append(float(row['shootingPct']))
+        return render_template('getTeamShootingPct.html', title='Team Shooting Pct', msg=f'Teams Shooting % in {season} Playoffs is {playoffs}',data=chart) 
+    else:
+        return render_template('getTeamShootingPct.html', title=f'Error', msg=f'Search Not Valid. Please Enter Valid Search Criteria')
 
 @app.route('/getPlayerChart')
 def getPlayerChart():
@@ -67,18 +76,21 @@ def getPlayerChart():
     url = f'http://127.0.0.1:5000/getPlayerChart?name={name}&season={season}&playoffs={playoffs}'
     r = requests.get(url)
     data = json.loads(r.text)
-    chart = {'x':[],'y':[],'x2':[],'y2':[],'x3':[],'y3':[]}
-    for row in data['rows']:
-        if row['event'] == 'MISS':
-            chart['x'].append(int(row['xcord']))
-            chart['y'].append(int(row['ycord']))
-        if row['event'] == 'SHOT':
-            chart['x2'].append(int(row['xcord']))
-            chart['y2'].append(int(row['ycord']))
-        if row['event'] == 'GOAL':
-            chart['x3'].append(int(row['xcord']))
-            chart['y3'].append(int(row['ycord']))
-    return render_template('getPlayerChart.html', title='Player Shooting Chart', msg=f'{name} Shooting Chart in {season}',data=chart) 
+    if data['code'] == 1:
+        chart = {'x':[],'y':[],'x2':[],'y2':[],'x3':[],'y3':[]}
+        for row in data['rows']:
+            if row['event'] == 'MISS':
+                chart['x'].append(int(row['xcord']))
+                chart['y'].append(int(row['ycord']))
+            if row['event'] == 'SHOT':
+                chart['x2'].append(int(row['xcord']))
+                chart['y2'].append(int(row['ycord']))
+            if row['event'] == 'GOAL':
+                chart['x3'].append(int(row['xcord']))
+                chart['y3'].append(int(row['ycord']))
+        return render_template('getPlayerChart.html', title='Player Shooting Chart', msg=f'{name} Shooting Chart in {season} Playoffs is {playoffs}',data=chart)
+    else:
+         return render_template('getPlayerChart.html', title=f'Error', msg=f'Search Not Valid. Please Enter Valid Player Name And Season They Played In')
 
 @app.route('/getAdvstats')
 def getAdvstats():
@@ -88,11 +100,14 @@ def getAdvstats():
     url = f'http://127.0.0.1:5000/getAdvstats?team={team}&season={season}&playoffs={playoffs}'
     r = requests.get(url)
     data = json.loads(r.text)
-    table = []
-    table.append(list(data['rows'][0]))
-    for row in data['rows']:
-        table.append(list(row.values()))
-    return render_template('getAdvstats.html', title='Advanced Statistics', msg=f'{team} Stats in {season}',data=table, name=team)
+    if data['code'] == 1:
+        table = []
+        table.append(list(data['rows'][0]))
+        for row in data['rows']:
+            table.append(list(row.values()))
+        return render_template('getAdvstats.html', title='Advanced Statistics', msg=f'{team} Stats in {season} Playoffs is {playoffs}',data=table, name=team)
+    else:
+        return render_template('getAdvstats.html',title=f'Error', msg=f'Search Not Valid. Please Enter Valid Team That Played In Selected Playoffs')
 
 @app.route('/selectPlayer')
 def selectPlayer():

@@ -2,16 +2,15 @@
 
 {% block content %}
     <form action="/getPlayerChart" method="GET">
-        <select name="name">
-            {% for player in players %}
-            <option value="{{ player.name }}">{{ player.name }}</option>
-            {% endfor %}
-        </select>
+        <label for="name">Insert Player Name</label>
+        <input type="text" name="name"><br>
+        <label for="season">Season</label>
         <select name="season">
             {% for season in seasons %}
             <option value="{{ season.season }}">{{ season.season }}</option>
             {% endfor %}
         </select>
+        <label for="playoffs">Playoffs</label>
         <select name="playoffs">
             {% for playoff in playoffs %}
             <option value="{{ playoff.playoff }}">{{ playoff.playoff }}</option>

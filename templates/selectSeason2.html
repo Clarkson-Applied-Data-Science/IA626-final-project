@@ -2,12 +2,13 @@
 
 {% block content %}
     <form action="/getTeamShootingPct" method="GET">
-
+        <label for="season">Season</label>
         <select name="season">
             {% for season in seasons %}
             <option value="{{ season.season }}">{{ season.season }}</option>
             {% endfor %}
         </select>
+        <label for="playoffs">Playoffs</label>
         <select name="playoffs">
             {% for playoff in playoffs %}
             <option value="{{ playoff.playoff }}">{{ playoff.playoff }}</option>

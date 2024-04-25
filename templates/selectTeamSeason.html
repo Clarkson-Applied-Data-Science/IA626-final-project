@@ -2,16 +2,19 @@
 
 {% block content %}
     <form action="/getAdvstats" method="GET">
+        <label for="team">Team Code</label>
         <select name="team">
             {% for team in teams %}
             <option value="{{ team.team }}">{{ team.team }}</option>
             {% endfor %}
         </select>
+        <label for="season">Season</label>
         <select name="season">
             {% for season in seasons %}
             <option value="{{ season.season }}">{{ season.season }}</option>
             {% endfor %}
         </select>
+        <label for="playoffs">Playoffs</label>
         <select name="playoffs">
             {% for playoff in playoffs %}
             <option value="{{ playoff.playoff }}">{{ playoff.playoff }}</option>
